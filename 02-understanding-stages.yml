@@ -9,6 +9,7 @@ stages:
   jobs:
   - job: FirstJob
     steps:
+    - bash: echo $(PipeLineLevelVariable)
     - bash: echo BuildId:$(Build.BuildId)
     - bash: echo SourceBranchName:$(Build.SourceBranchName)
     - bash: echo SourcesDirectory:$(Build.SourcesDirectory)
@@ -16,8 +17,6 @@ stages:
     - bash: echo DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
     - bash: ls -R $(System.DefaultWorkingDirectory)
  
-    # - bash: echo $(PipeLineLevelVariable)
-
   # - job: SecondJob
   #   steps:
   #   - bash: echo Build / SecondJob

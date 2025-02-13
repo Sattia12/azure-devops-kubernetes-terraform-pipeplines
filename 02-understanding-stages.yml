@@ -16,7 +16,23 @@ stages:
     - bash: echo ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
     - bash: echo DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
     - bash: ls -R $(System.DefaultWorkingDirectory)
- 
+  
+    - bash: java --version
+    - bash: mvn --version
+    - bash: node --version
+    - bash: python --version
+  
+    - bash: echo ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
+    - bash: ls -R $(Build.ArtifactStagingDirectory)
+    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.tf
+          **/*.yaml
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
   # - job: SecondJob
   #   steps:
   #   - bash: echo Build / SecondJob
@@ -24,28 +40,28 @@ stages:
 # - stage: DevDeploy
 #   dependsOn: Build
 #   variables:  
-#     enviroment: DevDeploy
+#     environment: DevDeploy
 #   jobs:
 #   - job: FirstJob
 #     steps:
-#     - bash: echo $(enviroment) / FirstJob
+#     - bash: echo $(environment) / FirstJob
 
 # - stage: QADeploy
 #   dependsOn: Build
 #   variables:  
-#     enviroment: QADeploy
+#     environment: QADeploy
 #   jobs:
 #   - job: FirstJob
 #     steps:
-#     - bash: echo $(enviroment) / FirstJob
+#     - bash: echo $(environment) / FirstJob
 
 # - stage: ProdDeploy
 #   dependsOn:
 #   - DevDeploy
 #   - QADeploy
 #   variables:  
-#     enviroment: ProdDeploy
+#     environment: ProdDeploy
 #   jobs:
 #   - job: FirstJob
 #     steps:
-#     - bash: echo $(enviroment) / FirstJob
+#     - bash: echo $(environment) / FirstJob

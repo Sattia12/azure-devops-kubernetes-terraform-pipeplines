@@ -9,37 +9,44 @@ stages:
   jobs:
   - job: FirstJob
     steps:
-    - bash: echo $(PipeLineLevelVariable)
+    - bash: echo BuildId:$(Build.BuildId)
+    - bash: echo SourceBranchName:$(Build.SourceBranchName)
+    - bash: echo SourcesDirectory:$(Build.SourcesDirectory)
+    - bash: echo ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
+    - bash: echo DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
+    - bash: ls -R $(System.DefaultWorkingDirectory)
+ 
+    # - bash: echo $(PipeLineLevelVariable)
 
-  - job: SecondJob
-    steps:
-    - bash: echo Build / SecondJob
+  # - job: SecondJob
+  #   steps:
+  #   - bash: echo Build / SecondJob
 
-- stage: DevDeploy
-  dependsOn: Build
-  variables:  
-    enviroment: DevDeploy
-  jobs:
-  - job: FirstJob
-    steps:
-    - bash: echo $(enviroment) / FirstJob
+# - stage: DevDeploy
+#   dependsOn: Build
+#   variables:  
+#     enviroment: DevDeploy
+#   jobs:
+#   - job: FirstJob
+#     steps:
+#     - bash: echo $(enviroment) / FirstJob
 
-- stage: QADeploy
-  dependsOn: Build
-  variables:  
-    enviroment: QADeploy
-  jobs:
-  - job: FirstJob
-    steps:
-    - bash: echo $(enviroment) / FirstJob
+# - stage: QADeploy
+#   dependsOn: Build
+#   variables:  
+#     enviroment: QADeploy
+#   jobs:
+#   - job: FirstJob
+#     steps:
+#     - bash: echo $(enviroment) / FirstJob
 
-- stage: ProdDeploy
-  dependsOn:
-  - DevDeploy
-  - QADeploy
-  variables:  
-    enviroment: ProdDeploy
-  jobs:
-  - job: FirstJob
-    steps:
-    - bash: echo $(enviroment) / FirstJob
+# - stage: ProdDeploy
+#   dependsOn:
+#   - DevDeploy
+#   - QADeploy
+#   variables:  
+#     enviroment: ProdDeploy
+#   jobs:
+#   - job: FirstJob
+#     steps:
+#     - bash: echo $(enviroment) / FirstJob

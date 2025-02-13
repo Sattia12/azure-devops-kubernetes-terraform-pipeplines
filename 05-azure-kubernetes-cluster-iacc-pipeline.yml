@@ -18,14 +18,22 @@ steps:
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-service-connection'
     backendAzureRmSubscriptionId: '4866ad87-d4e3-41de-a499-2d9ed0600532'
     ensureBackend: true
     backendAzureRmResourceGroupName: 'terraform-backend-rg'
     backendAzureRmResourceGroupLocation: 'uksouth'
-    backendAzureRmStorageAccountName: 'storage-account-sattia'
+    backendAzureRmStorageAccountName: 'storageaccountsattia'
     backendAzureRmContainerName: 'storageaccountsattiacontainer'
     backendAzureRmKey: 'kuberentes-dev.tfstate'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@2
+  displayName: 'terraform-apply'
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    environmentServiceName: 'azure-resource-manager-service-connection'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     allowTelemetryCollection: true
